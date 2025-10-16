@@ -189,15 +189,6 @@ lara-app/
 
 ---
 
-## 📚 Documentation
-
--   **[Project Guide](documents/ProjectGuide.md)** - Complete project overview and database design
--   **[Design Concepts](documents/DesignConcepts.md)** - UI/UX design system and brand guidelines
--   **[Task List](documents/TaskList.md)** - Development roadmap and progress tracker
--   **[Copilot Instructions](.github/copilot-instructions.md)** - AI assistant guidelines
-
----
-
 ## 🎨 Design System
 
 TradeLink follows a comprehensive design system with:
@@ -273,20 +264,6 @@ Contributions are welcome! Please follow these steps:
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
-
----
-
-## 📝 Development Roadmap
-
--   [x] **Phase 1:** Project setup and planning
--   [ ] **Phase 2:** Core user features (items, browse, search)
--   [ ] **Phase 3:** Admin panel and moderation
--   [ ] **Phase 4:** Notifications and interactions
--   [ ] **Phase 5:** Security and performance optimization
--   [ ] **Phase 6:** Testing and deployment
--   [ ] **Phase 7:** Future enhancements (chat, payments, mobile app)
-
-See [TaskList.md](documents/TaskList.md) for detailed progress.
 
 ---
 
