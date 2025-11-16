@@ -108,7 +108,12 @@
         <div class="flex items-center justify-between py-4 border-y border-gray-200">
           <div>
             <p class="text-sm text-gray-500 mb-1">Price</p>
-            <p class="price-display-large">${{ number_format($item->price, 2) }}</p>
+            <div class="flex items-center gap-2">
+              <p class="price-display-large">₱{{ number_format($item->price, 2) }}</p>
+              @if($item->negotiable)
+              <span class="badge badge-primary text-xs px-2 py-1">Negotiable</span>
+              @endif
+            </div>
           </div>
 
           @auth
@@ -126,6 +131,38 @@
           </a>
           @endauth
         </div>
+
+        <!-- Item Specifications -->
+        @if($item->condition || $item->brand || $item->model)
+        <div class="bg-gradient-to-br from-blue-50 to-teal-50 rounded-xl p-4">
+          <h3 class="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+            <svg class="w-4 h-4 text-trade-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            Item Details
+          </h3>
+          <div class="space-y-2 text-sm">
+            @if($item->condition)
+            <div class="flex items-center justify-between">
+              <span class="text-gray-600">Condition:</span>
+              <span class="font-semibold text-gray-900">{{ $item->condition }}</span>
+            </div>
+            @endif
+            @if($item->brand)
+            <div class="flex items-center justify-between">
+              <span class="text-gray-600">Brand:</span>
+              <span class="font-semibold text-gray-900">{{ $item->brand }}</span>
+            </div>
+            @endif
+            @if($item->model)
+            <div class="flex items-center justify-between">
+              <span class="text-gray-600">Model:</span>
+              <span class="font-semibold text-gray-900">{{ $item->model }}</span>
+            </div>
+            @endif
+          </div>
+        </div>
+        @endif
 
         <!-- Location -->
         @if($item->location)
@@ -251,8 +288,35 @@
         <p class="text-gray-600 text-sm mb-4 pb-4 border-b border-gray-100 line-clamp-3">{{ $item->user->bio }}</p>
         @endif
 
+        <!-- Preferred Contact Method -->
+        @if($item->contact_method)
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+          <p class="text-xs font-semibold text-blue-700 mb-1">Preferred Contact:</p>
+          <p class="text-sm font-bold text-blue-900">
+            @if($item->contact_method === 'messenger')
+            <span class="flex items-center gap-1.5">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0C5.373 0 0 4.975 0 11.111c0 3.497 1.745 6.616 4.472 8.652V24l4.086-2.242c1.09.301 2.246.464 3.442.464 6.627 0 12-4.974 12-11.11C24 4.975 18.627 0 12 0zm1.191 14.963l-3.055-3.26-5.963 3.26L10.732 8l3.131 3.259L19.752 8l-6.561 6.963z" />
+              </svg>
+              Messenger
+            </span>
+            @elseif($item->contact_method === 'facebook')
+            <span class="flex items-center gap-1.5">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+              </svg>
+              Facebook
+            </span>
+            @else
+            Messenger & Facebook
+            @endif
+          </p>
+        </div>
+        @endif
+
         <!-- Contact Buttons -->
         <div class="space-y-2 mb-4">
+          @if($item->contact_method === 'facebook' || $item->contact_method === 'both')
           @if($item->user->facebook_link)
           <a href="{{ $item->user->facebook_link }}" target="_blank" rel="noopener noreferrer" class="btn-social-fb w-full">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -261,7 +325,9 @@
             Contact on Facebook
           </a>
           @endif
+          @endif
 
+          @if($item->contact_method === 'messenger' || $item->contact_method === 'both')
           @if($item->user->messenger_link)
           <a href="{{ $item->user->messenger_link }}" target="_blank" rel="noopener noreferrer" class="btn-social-messenger w-full">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -270,8 +336,9 @@
             Message on Messenger
           </a>
           @endif
+          @endif
 
-          @if(!$item->user->facebook_link && !$item->user->messenger_link)
+          @if((!$item->user->facebook_link && !$item->user->messenger_link) || !$item->contact_method)
           <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center">
             <p class="text-gray-500 text-sm">No contact methods available</p>
           </div>
@@ -349,7 +416,7 @@
           <div class="p-3 sm:p-4">
             <p class="text-xs text-gray-500 mb-1">{{ $similarItem->category }}</p>
             <h3 class="font-semibold text-gray-900 text-sm sm:text-base line-clamp-2 group-hover:text-trade-blue transition-colors mb-2">{{ $similarItem->item_name }}</h3>
-            <p class="text-deal-orange font-bold text-lg sm:text-xl">${{ number_format($similarItem->price, 2) }}</p>
+            <p class="text-deal-orange font-bold text-lg sm:text-xl">₱{{ number_format($similarItem->price, 2) }}</p>
           </div>
         </a>
       </article>

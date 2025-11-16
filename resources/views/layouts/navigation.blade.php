@@ -21,6 +21,11 @@
                     <x-nav-link :href="route('favorites.index')" :active="request()->routeIs('favorites.*')">
                         {{ __('My Favorites') }}
                     </x-nav-link>
+                    @if(Auth::user()->isAdmin())
+                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')" class="text-purple-600">
+                        {{ __('Admin Panel') }}
+                    </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -82,6 +87,11 @@
             <x-responsive-nav-link :href="route('favorites.index')" :active="request()->routeIs('favorites.*')">
                 {{ __('My Favorites') }}
             </x-responsive-nav-link>
+            @if(Auth::user()->isAdmin())
+            <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
+                {{ __('Admin Panel') }}
+            </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

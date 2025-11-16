@@ -4,6 +4,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\ItemController as AdminItemController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -42,5 +45,24 @@ Route::middleware('auth')->group(function () {
 
 // Item detail (public) - MUST be after all other /items/* routes
 Route::get('/items/{item}', [ItemController::class, 'show'])->name('items.show');
+
+// Admin routes - protected by admin middleware
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
+    // User management
+    Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+    Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('users.show');
+    Route::post('/users/{user}/toggle-block', [AdminUserController::class, 'toggleBlock'])->name('users.toggleBlock');
+    Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
+
+    // Item management
+    Route::get('/items', [AdminItemController::class, 'index'])->name('items.index');
+    Route::get('/items/{item}', [AdminItemController::class, 'show'])->name('items.show');
+    Route::put('/items/{item}', [AdminItemController::class, 'update'])->name('items.update');
+    Route::delete('/items/{item}', [AdminItemController::class, 'destroy'])->name('items.destroy');
+    Route::delete('/items-bulk', [AdminItemController::class, 'bulkDestroy'])->name('items.bulk-destroy');
+    Route::post('/items/{item}/dismiss-reports', [AdminItemController::class, 'dismissReports'])->name('items.dismiss-reports');
+});
 
 require __DIR__ . '/auth.php';

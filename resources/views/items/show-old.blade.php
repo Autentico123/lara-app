@@ -55,7 +55,7 @@
 
             <!-- Price & Favorite -->
             <div class="flex items-center justify-between mb-4">
-              <p class="text-4xl font-bold text-amber-600">${{ number_format($item->price, 2) }}</p>
+              <p class="text-4xl font-bold text-amber-600">₱{{ number_format($item->price, 2) }}</p>
 
               @auth
               <form action="{{ route('favorites.toggle', $item) }}" method="POST" class="favorite-form">
@@ -234,7 +234,7 @@
             <div class="p-4">
               <p class="text-xs text-gray-500 mb-1">{{ $similarItem->category }}</p>
               <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2">{{ $similarItem->item_name }}</h3>
-              <p class="text-xl font-bold text-amber-600">${{ number_format($similarItem->price, 2) }}</p>
+              <p class="text-xl font-bold text-amber-600">₱{{ number_format($similarItem->price, 2) }}</p>
             </div>
           </a>
           @endforeach
@@ -251,11 +251,11 @@
     document.querySelectorAll('.favorite-form').forEach(form => {
       form.addEventListener('submit', async function(e) {
         e.preventDefault();
-        
+
         const button = this.querySelector('button');
         const count = button.querySelector('.favorite-count');
         const icon = button.querySelector('span:first-child');
-        
+
         try {
           const response = await fetch(this.action, {
             method: 'POST',
@@ -268,18 +268,18 @@
             credentials: 'same-origin',
             body: JSON.stringify({}),
           });
-          
+
           console.log('Favorite response status:', response.status);
-          
+
           if (!response.ok) {
             const errorText = await response.text();
             console.error('Favorite error response:', errorText);
             throw new Error(`HTTP error! status: ${response.status}`);
           }
-          
+
           const data = await response.json();
           console.log('Favorite data:', data);
-          
+
           if (data.success) {
             // Update icon
             icon.textContent = data.is_favorited ? '❤️' : '🤍';
@@ -322,7 +322,9 @@
               'X-Requested-With': 'XMLHttpRequest'
             },
             credentials: 'same-origin',
-            body: JSON.stringify({ message }),
+            body: JSON.stringify({
+              message
+            }),
           });
 
           console.log('Comment response status:', response.status);

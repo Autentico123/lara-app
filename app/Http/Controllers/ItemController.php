@@ -74,8 +74,16 @@ class ItemController extends Controller
             'category' => 'required|string|max:50',
             'price' => 'required|numeric|min:0|max:9999999.99',
             'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:5120', // 5MB max
-            'location' => 'nullable|string|max:255',
+            'location' => 'required|string|max:255',
+            'condition' => 'nullable|string|max:50',
+            'brand' => 'nullable|string|max:100',
+            'model' => 'nullable|string|max:100',
+            'negotiable' => 'nullable|boolean',
+            'contact_method' => 'required|string|in:messenger,facebook,both',
         ]);
+
+        // Convert negotiable checkbox
+        $validated['negotiable'] = $request->has('negotiable');
 
         // Handle image upload
         if ($request->hasFile('image')) {
@@ -98,13 +106,23 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        // Increment views (only once per session and not for owner)
-        $viewedItems = session()->get('viewed_items', []);
+        // Track view for authenticated users
+        if (Auth::check() && Auth::id() !== $item->user_id) {
+            // Mark as viewed by user
+            $item->markAsViewedBy(Auth::user());
 
-        if (!in_array($item->id, $viewedItems) && (!Auth::check() || Auth::id() !== $item->user_id)) {
-            $item->incrementViews();
-            $viewedItems[] = $item->id;
-            session()->put('viewed_items', $viewedItems);
+            // Increment total view count only if not viewed before
+            if (!$item->isViewedBy(Auth::user())) {
+                $item->incrementViews();
+            }
+        } elseif (!Auth::check()) {
+            // For guests, use session-based tracking
+            $viewedItems = session()->get('viewed_items', []);
+            if (!in_array($item->id, $viewedItems)) {
+                $item->incrementViews();
+                $viewedItems[] = $item->id;
+                session()->put('viewed_items', $viewedItems);
+            }
         }
 
         $item->load(['user', 'comments.user']);
@@ -142,9 +160,16 @@ class ItemController extends Controller
             'category' => 'required|string|max:50',
             'price' => 'required|numeric|min:0|max:9999999.99',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-            'location' => 'nullable|string|max:255',
-            'status' => 'required|in:active,sold,draft',
+            'location' => 'required|string|max:255',
+            'condition' => 'nullable|string|max:50',
+            'brand' => 'nullable|string|max:100',
+            'model' => 'nullable|string|max:100',
+            'negotiable' => 'nullable|boolean',
+            'contact_method' => 'required|string|in:messenger,facebook,both',
         ]);
+
+        // Convert negotiable checkbox
+        $validated['negotiable'] = $request->has('negotiable');
 
         // Handle image upload
         if ($request->hasFile('image')) {

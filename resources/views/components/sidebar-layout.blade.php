@@ -25,8 +25,8 @@
                         </svg>
                     </div>
                     <div>
-                        <span class="font-bold text-xl text-white group-hover:text-deal-orange transition-colors">TradeLink</span>
-                        <p class="text-xs text-gray-400">Marketplace</p>
+                        <span class="font-bold text-xl text-white">TradeLink</span>
+                        <p class="text-xs text-blue-200">Marketplace</p>
                     </div>
                 </a>
             </div>
@@ -132,7 +132,7 @@
         <div class="flex-1 flex flex-col lg:ml-64">
 
             <!-- Enhanced Top Navbar with Glass Effect -->
-            <nav class="h-16 bg-white/95 backdrop-blur-xl border-b border-gray-200/60 flex items-center justify-between px-4 lg:px-8 sticky top-0 z-20 shadow-sm">
+            <nav class="h-16 bg-white/95 backdrop-blur-xl border-b border-gray-200/60 flex items-center justify-between px-4 lg:px-8 fixed top-0 left-0 right-0 lg:left-64 z-30 shadow-sm">
                 <!-- Left: Mobile Menu Button + Page Title -->
                 <div class="flex items-center gap-4 flex-1">
                     <!-- Mobile Menu Button (hidden on desktop) -->
@@ -300,112 +300,97 @@
 
             <!-- Page Header -->
             @if(isset($header))
-            <div class="bg-white border-b border-gray-200 px-4 sm:px-6 lg:px-8 py-6">
+            <div class="bg-white border-b border-gray-200 px-4 sm:px-6 lg:px-8 py-6 mt-16">
                 {{ $header }}
             </div>
             @endif
 
             <!-- Main Content Area -->
-            <main class="flex-1 overflow-y-auto">
+            <main class="flex-1 overflow-y-auto @if(!isset($header)) mt-16 @endif">
                 {{ $slot }}
             </main>
 
         </div>
     </div>
 
-    <!-- Mobile Menu Overlay with Dark Theme -->
-    <div id="mobile-menu" class="lg:hidden fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-50 hidden">
-        <div class="fixed inset-y-0 left-0 w-72 bg-gradient-to-b from-gray-900 via-gray-900 to-gray-800 shadow-2xl">
+    <!-- Mobile Menu Overlay with Blue Theme -->
+    <div id="mobile-menu" class="lg:hidden fixed inset-0 bg-blue-900/60 backdrop-blur-sm z-50 hidden">
+        <div class="fixed inset-y-0 left-0 w-72 bg-blue-600 shadow-2xl">
             <!-- Mobile Menu Header -->
-            <div class="h-16 flex items-center justify-between px-4 border-b border-gray-700/50">
+            <div class="h-16 flex items-center justify-between px-4 border-b border-blue-700">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-deal-orange to-amber-500 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/50">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                         </svg>
                     </div>
                     <div>
                         <span class="font-bold text-xl text-white">TradeLink</span>
-                        <p class="text-xs text-gray-400">Marketplace</p>
+                        <p class="text-xs text-blue-200">Marketplace</p>
                     </div>
                 </div>
-                <button id="mobile-menu-close" class="p-2 text-gray-400 hover:bg-gray-800 rounded-lg transition-colors">
+                <button id="mobile-menu-close" class="p-2 text-blue-200 hover:bg-blue-700 rounded-lg transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
 
-            <!-- Mobile Navigation with Dark Theme -->
+            <!-- Mobile Navigation with Blue Theme -->
             <nav class="p-3 space-y-1.5 overflow-y-auto h-[calc(100vh-8rem)]">
-                <a href="{{ route('dashboard') }}" class="group flex items-center gap-3 px-4 py-3 {{ request()->routeIs('dashboard') ? 'bg-gradient-to-r from-trade-blue to-blue-600 text-white shadow-lg shadow-blue-500/30' : 'text-gray-300 hover:bg-gray-800/50 hover:text-white' }} rounded-xl font-medium transition-all duration-200">
-                    <svg class="w-5 h-5 {{ request()->routeIs('dashboard') ? 'text-white' : 'text-gray-400 group-hover:text-trade-teal' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('dashboard') }}" class="group flex items-center gap-3 px-4 py-3 {{ request()->routeIs('dashboard') ? 'bg-blue-700 text-white' : 'text-blue-100 hover:bg-blue-700 hover:text-white' }} rounded-xl font-medium transition-all duration-200">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                     </svg>
                     <span>Dashboard</span>
-                    @if(request()->routeIs('dashboard'))
-                    <div class="ml-auto w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
-                    @endif
                 </a>
 
-                <a href="{{ route('items.index') }}" class="group flex items-center gap-3 px-4 py-3 {{ request()->routeIs('items.index') ? 'bg-gradient-to-r from-trade-blue to-blue-600 text-white shadow-lg shadow-blue-500/30' : 'text-gray-300 hover:bg-gray-800/50 hover:text-white' }} rounded-xl font-medium transition-all duration-200">
-                    <svg class="w-5 h-5 {{ request()->routeIs('items.index') ? 'text-white' : 'text-gray-400 group-hover:text-trade-teal' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('items.index') }}" class="group flex items-center gap-3 px-4 py-3 {{ request()->routeIs('items.index') ? 'bg-blue-700 text-white' : 'text-blue-100 hover:bg-blue-700 hover:text-white' }} rounded-xl font-medium transition-all duration-200">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                     <span>Browse Items</span>
-                    @if(request()->routeIs('items.index'))
-                    <div class="ml-auto w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
-                    @endif
                 </a>
 
-                <a href="{{ route('favorites.index') }}" class="group flex items-center gap-3 px-4 py-3 {{ request()->routeIs('favorites.*') ? 'bg-gradient-to-r from-trade-blue to-blue-600 text-white shadow-lg shadow-blue-500/30' : 'text-gray-300 hover:bg-gray-800/50 hover:text-white' }} rounded-xl font-medium transition-all duration-200">
-                    <svg class="w-5 h-5 {{ request()->routeIs('favorites.*') ? 'text-white' : 'text-gray-400 group-hover:text-red-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('favorites.index') }}" class="group flex items-center gap-3 px-4 py-3 {{ request()->routeIs('favorites.*') ? 'bg-blue-700 text-white' : 'text-blue-100 hover:bg-blue-700 hover:text-white' }} rounded-xl font-medium transition-all duration-200">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
                     <span>My Favorites</span>
-                    @if(request()->routeIs('favorites.*'))
-                    <div class="ml-auto w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
-                    @endif
                 </a>
 
                 <div class="pt-4 pb-2">
-                    <p class="px-4 text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2">
-                        <span class="w-4 h-0.5 bg-gray-700 rounded-full"></span>
+                    <p class="px-4 text-xs font-bold text-blue-300 uppercase tracking-wider flex items-center gap-2">
+                        <span class="w-4 h-0.5 bg-blue-500 rounded-full"></span>
                         My Items
                     </p>
                 </div>
 
-                <a href="{{ route('items.create') }}" class="group flex items-center gap-3 px-4 py-3 {{ request()->routeIs('items.create') ? 'bg-gradient-to-r from-deal-orange to-amber-600 text-white shadow-lg shadow-orange-500/30' : 'text-gray-300 hover:bg-gray-800/50 hover:text-white' }} rounded-xl font-medium transition-all duration-200">
-                    <svg class="w-5 h-5 {{ request()->routeIs('items.create') ? 'text-white' : 'text-gray-400 group-hover:text-deal-orange' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('items.create') }}" class="group flex items-center gap-3 px-4 py-3 {{ request()->routeIs('items.create') ? 'bg-blue-700 text-white' : 'text-blue-100 hover:bg-blue-700 hover:text-white' }} rounded-xl font-medium transition-all duration-200">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
                     <span>Post New Item</span>
-                    @if(request()->routeIs('items.create'))
-                    <div class="ml-auto w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
-                    @endif
                 </a>
 
                 <div class="pt-4 pb-2">
-                    <p class="px-4 text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2">
-                        <span class="w-4 h-0.5 bg-gray-700 rounded-full"></span>
+                    <p class="px-4 text-xs font-bold text-blue-300 uppercase tracking-wider flex items-center gap-2">
+                        <span class="w-4 h-0.5 bg-blue-500 rounded-full"></span>
                         Account
                     </p>
                 </div>
 
-                <a href="{{ route('profile.edit') }}" class="group flex items-center gap-3 px-4 py-3 {{ request()->routeIs('profile.*') ? 'bg-gradient-to-r from-trade-blue to-blue-600 text-white shadow-lg shadow-blue-500/30' : 'text-gray-300 hover:bg-gray-800/50 hover:text-white' }} rounded-xl font-medium transition-all duration-200">
-                    <svg class="w-5 h-5 {{ request()->routeIs('profile.*') ? 'text-white' : 'text-gray-400 group-hover:text-trade-teal' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="{{ route('profile.edit') }}" class="group flex items-center gap-3 px-4 py-3 {{ request()->routeIs('profile.*') ? 'bg-blue-700 text-white' : 'text-blue-100 hover:bg-blue-700 hover:text-white' }} rounded-xl font-medium transition-all duration-200">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                     <span>Profile Settings</span>
-                    @if(request()->routeIs('profile.*'))
-                    <div class="ml-auto w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
-                    @endif
                 </a>
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="w-full group flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-red-500/20 hover:text-red-400 rounded-xl font-medium transition-all duration-200 text-left">
-                        <svg class="w-5 h-5 text-gray-400 group-hover:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button type="submit" class="w-full group flex items-center gap-3 px-4 py-3 text-blue-100 hover:bg-blue-700 hover:text-white rounded-xl font-medium transition-all duration-200 text-left">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                         </svg>
                         <span>Logout</span>
@@ -414,17 +399,15 @@
             </nav>
 
             <!-- Mobile User Card -->
-            <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-700/50 bg-gray-800/50">
-                <div class="flex items-center gap-3 p-2 rounded-xl hover:bg-gray-700/50 transition-all duration-200">
+            <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-blue-700 bg-blue-700">
+                <div class="flex items-center gap-3 p-2 rounded-xl hover:bg-blue-800 transition-all duration-200">
                     <div class="relative">
-                        <div class="w-11 h-11 bg-gradient-to-br from-trade-blue to-trade-teal rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
-                            <span class="text-white font-bold text-lg">{{ substr(auth()->user()->name, 0, 1) }}</span>
-                        </div>
-                        <div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-400 border-2 border-gray-900 rounded-full"></div>
+                        <img class="h-10 w-10 rounded-full border-2 border-blue-400" src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}">
+                        <div class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-400 border-2 border-blue-700 rounded-full"></div>
                     </div>
                     <div class="flex-1 min-w-0">
                         <p class="text-sm font-bold text-white truncate">{{ auth()->user()->name }}</p>
-                        <p class="text-xs text-gray-400 truncate">Online</p>
+                        <p class="text-xs text-blue-200 truncate">User</p>
                     </div>
                 </div>
             </div>

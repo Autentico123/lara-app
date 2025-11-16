@@ -56,14 +56,58 @@
 
           <!-- Price -->
           <div class="mb-6">
-            <label for="price" class="block text-sm font-medium text-gray-700 mb-2">Price *</label>
+            <label for="price" class="block text-sm font-medium text-gray-700 mb-2">Price (₱) *</label>
             <div class="relative">
-              <span class="absolute left-3 top-2 text-gray-600 font-semibold">$</span>
+              <span class="absolute left-3 top-2 text-gray-600 font-semibold">₱</span>
               <input type="number" name="price" id="price" value="{{ old('price', $item->price) }}" step="0.01" min="0" required class="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('price') border-red-500 @enderror" placeholder="0.00">
             </div>
             @error('price')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
+          </div>
+
+          <!-- Negotiable -->
+          <div class="mb-6 flex items-center">
+            <input id="negotiable" name="negotiable" type="checkbox" value="1" {{ old('negotiable', $item->negotiable) ? 'checked' : '' }} class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+            <label for="negotiable" class="ml-2 block text-sm text-gray-700">
+              Price is negotiable
+            </label>
+          </div>
+
+          <!-- Condition -->
+          <div class="mb-6">
+            <label for="condition" class="block text-sm font-medium text-gray-700 mb-2">Condition</label>
+            <select id="condition" name="condition" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('condition') border-red-500 @enderror">
+              <option value="">Select condition (optional)</option>
+              <option value="Brand New" {{ old('condition', $item->condition) == 'Brand New' ? 'selected' : '' }}>Brand New</option>
+              <option value="Like New" {{ old('condition', $item->condition) == 'Like New' ? 'selected' : '' }}>Like New</option>
+              <option value="Excellent" {{ old('condition', $item->condition) == 'Excellent' ? 'selected' : '' }}>Excellent</option>
+              <option value="Good" {{ old('condition', $item->condition) == 'Good' ? 'selected' : '' }}>Good</option>
+              <option value="Fair" {{ old('condition', $item->condition) == 'Fair' ? 'selected' : '' }}>Fair</option>
+              <option value="For Parts" {{ old('condition', $item->condition) == 'For Parts' ? 'selected' : '' }}>For Parts</option>
+            </select>
+            @error('condition')
+            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+            @enderror
+          </div>
+
+          <!-- Brand & Model -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label for="brand" class="block text-sm font-medium text-gray-700 mb-2">Brand (Optional)</label>
+              <input type="text" name="brand" id="brand" value="{{ old('brand', $item->brand) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('brand') border-red-500 @enderror" placeholder="e.g., Apple, Samsung">
+              @error('brand')
+              <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+              @enderror
+            </div>
+
+            <div>
+              <label for="model" class="block text-sm font-medium text-gray-700 mb-2">Model (Optional)</label>
+              <input type="text" name="model" id="model" value="{{ old('model', $item->model) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('model') border-red-500 @enderror" placeholder="e.g., iPhone 13">
+              @error('model')
+              <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+              @enderror
+            </div>
           </div>
 
           <!-- Description -->
@@ -102,10 +146,73 @@
             </div>
           </div>
 
+          <!-- Contact Method -->
+          <div class="mb-6">
+            <label for="contact_method" class="block text-sm font-medium text-gray-700 mb-2">Preferred Contact Method *</label>
+            <select id="contact_method" name="contact_method" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('contact_method') border-red-500 @enderror">
+              <option value="messenger" {{ old('contact_method', $item->contact_method) == 'messenger' ? 'selected' : '' }}>Messenger</option>
+              <option value="facebook" {{ old('contact_method', $item->contact_method) == 'facebook' ? 'selected' : '' }}>Facebook</option>
+              <option value="both" {{ old('contact_method', $item->contact_method) == 'both' ? 'selected' : '' }}>Both (Messenger & Facebook)</option>
+            </select>
+            <p class="text-gray-600 text-xs mt-1">How buyers can reach you</p>
+            @error('contact_method')
+            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+            @enderror
+          </div>
+
           <!-- Location -->
           <div class="mb-6">
-            <label for="location" class="block text-sm font-medium text-gray-700 mb-2">Location</label>
-            <input type="text" name="location" id="location" value="{{ old('location', $item->location) }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('location') border-red-500 @enderror" placeholder="e.g., Manila, Philippines">
+            <label for="location" class="block text-sm font-medium text-gray-700 mb-2">Location *</label>
+            <select name="location" id="location" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('location') border-red-500 @enderror">
+              <option value="">Select your location</option>
+              <option value="Tagbilaran City" {{ old('location', $item->location) == 'Tagbilaran City' ? 'selected' : '' }}>Tagbilaran City</option>
+              <option value="Ubay" {{ old('location', $item->location) == 'Ubay' ? 'selected' : '' }}>Ubay</option>
+              <option value="Talibon" {{ old('location', $item->location) == 'Talibon' ? 'selected' : '' }}>Talibon</option>
+              <option value="Jagna" {{ old('location', $item->location) == 'Jagna' ? 'selected' : '' }}>Jagna</option>
+              <option value="Guindulman" {{ old('location', $item->location) == 'Guindulman' ? 'selected' : '' }}>Guindulman</option>
+              <option value="Trinidad" {{ old('location', $item->location) == 'Trinidad' ? 'selected' : '' }}>Trinidad</option>
+              <option value="Tubigon" {{ old('location', $item->location) == 'Tubigon' ? 'selected' : '' }}>Tubigon</option>
+              <option value="Calape" {{ old('location', $item->location) == 'Calape' ? 'selected' : '' }}>Calape</option>
+              <option value="Loon" {{ old('location', $item->location) == 'Loon' ? 'selected' : '' }}>Loon</option>
+              <option value="Inabanga" {{ old('location', $item->location) == 'Inabanga' ? 'selected' : '' }}>Inabanga</option>
+              <option value="Getafe" {{ old('location', $item->location) == 'Getafe' ? 'selected' : '' }}>Getafe</option>
+              <option value="Dauis" {{ old('location', $item->location) == 'Dauis' ? 'selected' : '' }}>Dauis</option>
+              <option value="Panglao" {{ old('location', $item->location) == 'Panglao' ? 'selected' : '' }}>Panglao</option>
+              <option value="Loay" {{ old('location', $item->location) == 'Loay' ? 'selected' : '' }}>Loay</option>
+              <option value="Loboc" {{ old('location', $item->location) == 'Loboc' ? 'selected' : '' }}>Loboc</option>
+              <option value="Carmen" {{ old('location', $item->location) == 'Carmen' ? 'selected' : '' }}>Carmen</option>
+              <option value="Garcia Hernandez" {{ old('location', $item->location) == 'Garcia Hernandez' ? 'selected' : '' }}>Garcia Hernandez</option>
+              <option value="Valencia" {{ old('location', $item->location) == 'Valencia' ? 'selected' : '' }}>Valencia</option>
+              <option value="Dimiao" {{ old('location', $item->location) == 'Dimiao' ? 'selected' : '' }}>Dimiao</option>
+              <option value="Clarin" {{ old('location', $item->location) == 'Clarin' ? 'selected' : '' }}>Clarin</option>
+              <option value="Catigbian" {{ old('location', $item->location) == 'Catigbian' ? 'selected' : '' }}>Catigbian</option>
+              <option value="Sagbayan" {{ old('location', $item->location) == 'Sagbayan' ? 'selected' : '' }}>Sagbayan</option>
+              <option value="Bilar" {{ old('location', $item->location) == 'Bilar' ? 'selected' : '' }}>Bilar</option>
+              <option value="Batuan" {{ old('location', $item->location) == 'Batuan' ? 'selected' : '' }}>Batuan</option>
+              <option value="Balilihan" {{ old('location', $item->location) == 'Balilihan' ? 'selected' : '' }}>Balilihan</option>
+              <option value="Cortes" {{ old('location', $item->location) == 'Cortes' ? 'selected' : '' }}>Cortes</option>
+              <option value="Corella" {{ old('location', $item->location) == 'Corella' ? 'selected' : '' }}>Corella</option>
+              <option value="Maribojoc" {{ old('location', $item->location) == 'Maribojoc' ? 'selected' : '' }}>Maribojoc</option>
+              <option value="Antequera" {{ old('location', $item->location) == 'Antequera' ? 'selected' : '' }}>Antequera</option>
+              <option value="Lila" {{ old('location', $item->location) == 'Lila' ? 'selected' : '' }}>Lila</option>
+              <option value="Baclayon" {{ old('location', $item->location) == 'Baclayon' ? 'selected' : '' }}>Baclayon</option>
+              <option value="Alburquerque" {{ old('location', $item->location) == 'Alburquerque' ? 'selected' : '' }}>Alburquerque</option>
+              <option value="Sikatuna" {{ old('location', $item->location) == 'Sikatuna' ? 'selected' : '' }}>Sikatuna</option>
+              <option value="Sevilla" {{ old('location', $item->location) == 'Sevilla' ? 'selected' : '' }}>Sevilla</option>
+              <option value="Alicia" {{ old('location', $item->location) == 'Alicia' ? 'selected' : '' }}>Alicia</option>
+              <option value="Mabini" {{ old('location', $item->location) == 'Mabini' ? 'selected' : '' }}>Mabini</option>
+              <option value="Candijay" {{ old('location', $item->location) == 'Candijay' ? 'selected' : '' }}>Candijay</option>
+              <option value="Anda" {{ old('location', $item->location) == 'Anda' ? 'selected' : '' }}>Anda</option>
+              <option value="Duero" {{ old('location', $item->location) == 'Duero' ? 'selected' : '' }}>Duero</option>
+              <option value="Sierra Bullones" {{ old('location', $item->location) == 'Sierra Bullones' ? 'selected' : '' }}>Sierra Bullones</option>
+              <option value="San Miguel" {{ old('location', $item->location) == 'San Miguel' ? 'selected' : '' }}>San Miguel</option>
+              <option value="Pilar" {{ old('location', $item->location) == 'Pilar' ? 'selected' : '' }}>Pilar</option>
+              <option value="Dagohoy" {{ old('location', $item->location) == 'Dagohoy' ? 'selected' : '' }}>Dagohoy</option>
+              <option value="Danao" {{ old('location', $item->location) == 'Danao' ? 'selected' : '' }}>Danao</option>
+              <option value="Bien Unido" {{ old('location', $item->location) == 'Bien Unido' ? 'selected' : '' }}>Bien Unido</option>
+              <option value="Buenavista" {{ old('location', $item->location) == 'Buenavista' ? 'selected' : '' }}>Buenavista</option>
+            </select>
+            <p class="text-gray-600 text-xs mt-1">Select your municipality in Bohol</p>
             @error('location')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror

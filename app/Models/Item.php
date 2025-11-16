@@ -23,6 +23,11 @@ class Item extends Model
         'location',
         'status',
         'views',
+        'condition',
+        'brand',
+        'model',
+        'negotiable',
+        'contact_method',
     ];
 
     /**
@@ -33,6 +38,7 @@ class Item extends Model
     protected $casts = [
         'price' => 'decimal:2',
         'views' => 'integer',
+        'negotiable' => 'boolean',
     ];
 
     /**
@@ -68,11 +74,42 @@ class Item extends Model
     }
 
     /**
+     * Get the views for the item.
+     */
+    public function itemViews(): HasMany
+    {
+        return $this->hasMany(ItemView::class);
+    }
+
+    /**
      * Increment the view count for the item.
      */
     public function incrementViews(): void
     {
         $this->increment('views');
+    }
+
+    /**
+     * Check if the item has been viewed by a user.
+     */
+    public function isViewedBy(?User $user): bool
+    {
+        if (!$user) {
+            return false;
+        }
+
+        return $this->itemViews()->where('user_id', $user->id)->exists();
+    }
+
+    /**
+     * Mark item as viewed by a user.
+     */
+    public function markAsViewedBy(User $user): void
+    {
+        $this->itemViews()->firstOrCreate(
+            ['user_id' => $user->id],
+            ['viewed_at' => now()]
+        );
     }
 
     /**

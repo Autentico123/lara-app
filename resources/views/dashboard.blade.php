@@ -204,8 +204,8 @@
                             </div>
                             <h3 class="font-bold text-gray-900 text-base line-clamp-2 mb-2 group-hover:text-trade-blue transition-colors">{{ $item->item_name }}</h3>
                             <div class="flex items-baseline gap-2">
-                                <p class="price-display text-2xl">${{ number_format($item->price, 2) }}</p>
-                                <span class="text-xs text-gray-500 line-through">${{ number_format($item->price * 1.2, 2) }}</span>
+                                <p class="price-display text-2xl">₱{{ number_format($item->price, 2) }}</p>
+                                <span class="text-xs text-gray-500 line-through">₱{{ number_format($item->price * 1.2, 2) }}</span>
                             </div>
                         </div>
 

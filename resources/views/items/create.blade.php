@@ -44,14 +44,52 @@
 
           <!-- Price -->
           <div>
-            <x-input-label for="price" :value="__('Price')" />
+            <x-input-label for="price" :value="__('Price (₱)')" />
             <div class="mt-1 relative rounded-md shadow-sm">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span class="text-gray-500 sm:text-sm">$</span>
+                <span class="text-gray-500 sm:text-sm">₱</span>
               </div>
               <x-text-input id="price" class="pl-7 block w-full" type="number" step="0.01" name="price" :value="old('price')" required placeholder="0.00" />
             </div>
             <x-input-error :messages="$errors->get('price')" class="mt-2" />
+          </div>
+
+          <!-- Negotiable -->
+          <div class="flex items-center">
+            <input id="negotiable" name="negotiable" type="checkbox" value="1" {{ old('negotiable', true) ? 'checked' : '' }} class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+            <label for="negotiable" class="ml-2 block text-sm text-gray-700">
+              Price is negotiable
+            </label>
+          </div>
+
+          <!-- Condition -->
+          <div>
+            <x-input-label for="condition" :value="__('Condition')" />
+            <select id="condition" name="condition" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+              <option value="">Select condition (optional)</option>
+              <option value="Brand New" {{ old('condition') == 'Brand New' ? 'selected' : '' }}>Brand New</option>
+              <option value="Like New" {{ old('condition') == 'Like New' ? 'selected' : '' }}>Like New</option>
+              <option value="Excellent" {{ old('condition') == 'Excellent' ? 'selected' : '' }}>Excellent</option>
+              <option value="Good" {{ old('condition') == 'Good' ? 'selected' : '' }}>Good</option>
+              <option value="Fair" {{ old('condition') == 'Fair' ? 'selected' : '' }}>Fair</option>
+              <option value="For Parts" {{ old('condition') == 'For Parts' ? 'selected' : '' }}>For Parts</option>
+            </select>
+            <x-input-error :messages="$errors->get('condition')" class="mt-2" />
+          </div>
+
+          <!-- Brand & Model (Two columns) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <x-input-label for="brand" :value="__('Brand (Optional)')" />
+              <x-text-input id="brand" class="block mt-1 w-full" type="text" name="brand" :value="old('brand')" placeholder="e.g., Apple, Samsung, Nike" />
+              <x-input-error :messages="$errors->get('brand')" class="mt-2" />
+            </div>
+
+            <div>
+              <x-input-label for="model" :value="__('Model (Optional)')" />
+              <x-text-input id="model" class="block mt-1 w-full" type="text" name="model" :value="old('model')" placeholder="e.g., iPhone 13, Galaxy S21" />
+              <x-input-error :messages="$errors->get('model')" class="mt-2" />
+            </div>
           </div>
 
           <!-- Description -->
@@ -88,11 +126,73 @@
             </div>
           </div>
 
+          <!-- Contact Method -->
+          <div>
+            <x-input-label for="contact_method" :value="__('Preferred Contact Method')" />
+            <select id="contact_method" name="contact_method" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+              <option value="messenger" {{ old('contact_method', 'messenger') == 'messenger' ? 'selected' : '' }}>Messenger</option>
+              <option value="facebook" {{ old('contact_method') == 'facebook' ? 'selected' : '' }}>Facebook</option>
+              <option value="both" {{ old('contact_method') == 'both' ? 'selected' : '' }}>Both (Messenger & Facebook)</option>
+            </select>
+            <x-input-error :messages="$errors->get('contact_method')" class="mt-2" />
+            <p class="text-xs text-gray-500 mt-1">How buyers can reach you</p>
+          </div>
+
           <!-- Location -->
           <div>
-            <x-input-label for="location" :value="__('Location (Optional)')" />
-            <x-text-input id="location" class="block mt-1 w-full" type="text" name="location" :value="old('location', auth()->user()->location)" placeholder="City, Country" />
+            <x-input-label for="location" :value="__('Location')" />
+            <select id="location" name="location" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+              <option value="">Select your location</option>
+              <option value="Tagbilaran City" {{ old('location') == 'Tagbilaran City' ? 'selected' : '' }}>Tagbilaran City</option>
+              <option value="Ubay" {{ old('location') == 'Ubay' ? 'selected' : '' }}>Ubay</option>
+              <option value="Talibon" {{ old('location') == 'Talibon' ? 'selected' : '' }}>Talibon</option>
+              <option value="Jagna" {{ old('location') == 'Jagna' ? 'selected' : '' }}>Jagna</option>
+              <option value="Guindulman" {{ old('location') == 'Guindulman' ? 'selected' : '' }}>Guindulman</option>
+              <option value="Trinidad" {{ old('location') == 'Trinidad' ? 'selected' : '' }}>Trinidad</option>
+              <option value="Tubigon" {{ old('location') == 'Tubigon' ? 'selected' : '' }}>Tubigon</option>
+              <option value="Calape" {{ old('location') == 'Calape' ? 'selected' : '' }}>Calape</option>
+              <option value="Loon" {{ old('location') == 'Loon' ? 'selected' : '' }}>Loon</option>
+              <option value="Inabanga" {{ old('location') == 'Inabanga' ? 'selected' : '' }}>Inabanga</option>
+              <option value="Getafe" {{ old('location') == 'Getafe' ? 'selected' : '' }}>Getafe</option>
+              <option value="Dauis" {{ old('location') == 'Dauis' ? 'selected' : '' }}>Dauis</option>
+              <option value="Panglao" {{ old('location') == 'Panglao' ? 'selected' : '' }}>Panglao</option>
+              <option value="Loay" {{ old('location') == 'Loay' ? 'selected' : '' }}>Loay</option>
+              <option value="Loboc" {{ old('location') == 'Loboc' ? 'selected' : '' }}>Loboc</option>
+              <option value="Carmen" {{ old('location') == 'Carmen' ? 'selected' : '' }}>Carmen</option>
+              <option value="Garcia Hernandez" {{ old('location') == 'Garcia Hernandez' ? 'selected' : '' }}>Garcia Hernandez</option>
+              <option value="Valencia" {{ old('location') == 'Valencia' ? 'selected' : '' }}>Valencia</option>
+              <option value="Dimiao" {{ old('location') == 'Dimiao' ? 'selected' : '' }}>Dimiao</option>
+              <option value="Clarin" {{ old('location') == 'Clarin' ? 'selected' : '' }}>Clarin</option>
+              <option value="Catigbian" {{ old('location') == 'Catigbian' ? 'selected' : '' }}>Catigbian</option>
+              <option value="Sagbayan" {{ old('location') == 'Sagbayan' ? 'selected' : '' }}>Sagbayan</option>
+              <option value="Bilar" {{ old('location') == 'Bilar' ? 'selected' : '' }}>Bilar</option>
+              <option value="Batuan" {{ old('location') == 'Batuan' ? 'selected' : '' }}>Batuan</option>
+              <option value="Balilihan" {{ old('location') == 'Balilihan' ? 'selected' : '' }}>Balilihan</option>
+              <option value="Cortes" {{ old('location') == 'Cortes' ? 'selected' : '' }}>Cortes</option>
+              <option value="Corella" {{ old('location') == 'Corella' ? 'selected' : '' }}>Corella</option>
+              <option value="Maribojoc" {{ old('location') == 'Maribojoc' ? 'selected' : '' }}>Maribojoc</option>
+              <option value="Antequera" {{ old('location') == 'Antequera' ? 'selected' : '' }}>Antequera</option>
+              <option value="Lila" {{ old('location') == 'Lila' ? 'selected' : '' }}>Lila</option>
+              <option value="Baclayon" {{ old('location') == 'Baclayon' ? 'selected' : '' }}>Baclayon</option>
+              <option value="Alburquerque" {{ old('location') == 'Alburquerque' ? 'selected' : '' }}>Alburquerque</option>
+              <option value="Sikatuna" {{ old('location') == 'Sikatuna' ? 'selected' : '' }}>Sikatuna</option>
+              <option value="Sevilla" {{ old('location') == 'Sevilla' ? 'selected' : '' }}>Sevilla</option>
+              <option value="Alicia" {{ old('location') == 'Alicia' ? 'selected' : '' }}>Alicia</option>
+              <option value="Mabini" {{ old('location') == 'Mabini' ? 'selected' : '' }}>Mabini</option>
+              <option value="Candijay" {{ old('location') == 'Candijay' ? 'selected' : '' }}>Candijay</option>
+              <option value="Anda" {{ old('location') == 'Anda' ? 'selected' : '' }}>Anda</option>
+              <option value="Duero" {{ old('location') == 'Duero' ? 'selected' : '' }}>Duero</option>
+              <option value="Sierra Bullones" {{ old('location') == 'Sierra Bullones' ? 'selected' : '' }}>Sierra Bullones</option>
+              <option value="San Miguel" {{ old('location') == 'San Miguel' ? 'selected' : '' }}>San Miguel</option>
+              <option value="Pilar" {{ old('location') == 'Pilar' ? 'selected' : '' }}>Pilar</option>
+              <option value="Dagohoy" {{ old('location') == 'Dagohoy' ? 'selected' : '' }}>Dagohoy</option>
+              <option value="Danao" {{ old('location') == 'Danao' ? 'selected' : '' }}>Danao</option>
+              <option value="Bien Unido" {{ old('location') == 'Bien Unido' ? 'selected' : '' }}>Bien Unido</option>
+              <option value="Buenavista" {{ old('location') == 'Buenavista' ? 'selected' : '' }}>Buenavista</option>
+              <option value="Trinidad" {{ old('location') == 'Trinidad' ? 'selected' : '' }}>Trinidad</option>
+            </select>
             <x-input-error :messages="$errors->get('location')" class="mt-2" />
+            <p class="text-xs text-gray-500 mt-1">Select your municipality in Bohol</p>
           </div>
 
           <!-- Submit Buttons -->

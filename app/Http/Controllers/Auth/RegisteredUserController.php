@@ -33,9 +33,9 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'facebook_link' => ['nullable', 'url', 'max:255'],
-            'messenger_link' => ['nullable', 'url', 'max:255'],
-            'location' => ['nullable', 'string', 'max:255'],
+            'facebook_link' => ['required', 'url', 'max:255'],
+            'messenger_link' => ['required', 'url', 'max:255'],
+            'location' => ['required', 'string', 'max:255'],
         ]);
 
         $user = User::create([

@@ -41,6 +41,28 @@
         @apply hover:shadow-card-hover hover:-translate-y-1 hover:scale-[1.01];
     }
 
+    /* Stats Card for Dashboard - Enhanced Gradient Base */
+    .stat-card {
+        @apply relative rounded-2xl shadow-lg overflow-hidden border border-white/50 transition-all duration-300;
+    }
+
+    .stat-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(249, 250, 251, 0.95) 100%
+        );
+        z-index: 0;
+    }
+
+    .stat-card > div {
+        position: relative;
+        z-index: 1;
+    }
+
     /* Item Card */
     .item-card {
         @apply bg-white rounded-xl shadow-card transition-all duration-200 overflow-hidden border border-gray-100 hover:shadow-card-hover hover:-translate-y-1 hover:border-blue-200 cursor-pointer;
@@ -133,5 +155,21 @@
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
+    }
+
+    /* Animation Classes */
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
     }
 }

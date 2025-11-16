@@ -125,6 +125,18 @@
               class="item-card-image transition-transform duration-500 group-hover:scale-110 group-hover:rotate-1"
               loading="lazy">
 
+            <!-- Viewed Badge -->
+            @auth
+            @if($item->isViewedBy(auth()->user()))
+            <div class="absolute top-3 left-3 bg-green-500 text-white px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 backdrop-blur-sm bg-opacity-95 animate-fade-in">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span class="text-xs font-bold">Viewed</span>
+            </div>
+            @endif
+            @endauth
+
             <!-- NEW Badge -->
             @if($item->created_at->diffInHours(now()) < 24)
               <span class="absolute top-3 right-3 badge badge-new px-3 py-1 text-xs font-bold shadow-lg backdrop-blur-sm bg-opacity-90 animate-bounce">
@@ -155,7 +167,7 @@
 
             <!-- Price -->
             <p class="price-display text-2xl">
-              ${{ number_format($item->price, 2) }}
+              ₱{{ number_format($item->price, 2) }}
             </p>
 
             <!-- Seller -->
