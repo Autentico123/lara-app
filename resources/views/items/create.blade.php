@@ -49,7 +49,7 @@
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <span class="text-gray-500 sm:text-sm">₱</span>
               </div>
-              <x-text-input id="price" class="pl-7 block w-full" type="number" step="0.01" name="price" :value="old('price')" required placeholder="0.00" />
+              <x-text-input id="price" class="pl-7 block w-full" type="number" step="0.01" min="0" name="price" :value="old('price')" required placeholder="0.00" />
             </div>
             <x-input-error :messages="$errors->get('price')" class="mt-2" />
           </div>
@@ -265,6 +265,27 @@
         reader.readAsDataURL(file);
       }
     }
+
+    // Prevent negative price input
+    document.addEventListener('DOMContentLoaded', function() {
+      const priceInput = document.getElementById('price');
+      if (priceInput) {
+        // Block minus sign and e character
+        priceInput.addEventListener('keypress', function(e) {
+          if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+            e.preventDefault();
+            return false;
+          }
+        });
+
+        // Reset to 0 if negative value somehow gets in
+        priceInput.addEventListener('change', function() {
+          if (parseFloat(this.value) < 0 || this.value === '') {
+            this.value = 0;
+          }
+        });
+      }
+    });
   </script>
   @endpush
 </x-sidebar-layout>

@@ -108,18 +108,23 @@ class ItemController extends Controller
     {
         // Track view for authenticated users
         if (Auth::check() && Auth::id() !== $item->user_id) {
+            // Check if already viewed BEFORE marking as viewed
+            $alreadyViewed = $item->isViewedBy(Auth::user());
+
             // Mark as viewed by user
             $item->markAsViewedBy(Auth::user());
 
             // Increment total view count only if not viewed before
-            if (!$item->isViewedBy(Auth::user())) {
+            if (!$alreadyViewed) {
                 $item->incrementViews();
+                $item->refresh(); // Refresh model to get updated views count
             }
         } elseif (!Auth::check()) {
             // For guests, use session-based tracking
             $viewedItems = session()->get('viewed_items', []);
             if (!in_array($item->id, $viewedItems)) {
                 $item->incrementViews();
+                $item->refresh(); // Refresh model to get updated views count
                 $viewedItems[] = $item->id;
                 session()->put('viewed_items', $viewedItems);
             }

@@ -112,9 +112,9 @@
                     <div>
                         <p class="text-sm text-gray-600 mb-1 font-medium">Favorites</p>
                         <p class="text-4xl font-bold bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">
-                            {{ auth()->user()->items()->withCount('favorites')->get()->sum('favorites_count') }}
+                            {{ auth()->user()->favorites()->count() }}
                         </p>
-                        <p class="text-xs text-gray-500 mt-2">People interested</p>
+                        <p class="text-xs text-gray-500 mt-2">Items you favorited</p>
                     </div>
                 </div>
             </div>

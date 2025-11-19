@@ -290,9 +290,6 @@
                 <a href="{{ route('admin.items.show', $item) }}" class="text-trade-blue hover:text-blue-700 font-medium">
                   View
                 </a>
-                <a href="{{ route('items.show', $item) }}" target="_blank" class="text-trade-teal hover:text-teal-700 font-medium">
-                  Preview
-                </a>
                 <form method="POST" action="{{ route('admin.items.destroy', $item) }}" class="inline" onsubmit="return confirm('Are you sure you want to delete this item?');">
                   @csrf
                   @method('DELETE')

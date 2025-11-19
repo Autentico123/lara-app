@@ -257,5 +257,26 @@
         reader.readAsDataURL(file);
       }
     }
+
+    // Prevent negative price input
+    document.addEventListener('DOMContentLoaded', function() {
+      const priceInput = document.getElementById('price');
+      if (priceInput) {
+        // Block minus sign and e character
+        priceInput.addEventListener('keypress', function(e) {
+          if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+            e.preventDefault();
+            return false;
+          }
+        });
+
+        // Reset to 0 if negative value somehow gets in
+        priceInput.addEventListener('change', function() {
+          if (parseFloat(this.value) < 0 || this.value === '') {
+            this.value = 0;
+          }
+        });
+      }
+    });
   </script>
 </x-sidebar-layout>
